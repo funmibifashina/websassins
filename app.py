@@ -17,9 +17,9 @@ import web              # A simple-looking Python HTTP framework I just found
 # Syntax: 'regular expression', 'class to be called'
 urls = (
     '/',              'index',
-    '/death',         'death',
-    '/seeMsg',        'seeMsg',
     '/createdeath',   'createdeath',
+    '/deathmatch',    'deathmatch',
+    '/seeMsg',        'seeMsg',
     '/target',        'target',
     '/echoChamber',        'echoChamber',
 )
