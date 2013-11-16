@@ -14,6 +14,7 @@ import random
 from pymongo import MongoClient
 import sqlite3
 import re
+import sys
 
 # Convenience functions
 def GetRandomString():
@@ -51,22 +52,7 @@ render = web.template.render('templates/');
 # Form that handles the buttons on the index page
 class index:
     def GET(self):
-        con = None
-        try:
-            con = sqlite3.connect('test.db')
-            cur = con.cursor()    
-            cur.execute("INSERT into Game VALUES(5)")
-            data = cur.fetchone()
-            print "Game: %s" % data       
-            con.commit()         
-        except sqlite3.Error, e:
-            print "Error %s:" % e.args[0]
-            sys.exit(1)
-        finally:
-            if con:
-                con.close()
-
-        web.setcookie('username', 1)
+        web.setcookie('fakesession', GetRandomString() + GetRandomString())
         chars = string.ascii_uppercase + string.digits
         size = 4;
         game_id = GetRandomString()
@@ -75,6 +61,20 @@ class index:
 class createdeath:
     def GET(self, game_id):
         #TODO: add logic for dealing with reacurring game IDs
+        con = None
+        try:
+            con = sqlite3.connect('test.db')
+            cur = con.cursor()    
+            cur.execute("INSERT into Game(id) VALUES('" + game_id + "')")
+            data = cur.fetchone()
+            print "Creating Game: %s" % data       
+            con.commit()         
+        except sqlite3.Error, e:
+            print "Error %s:" % e.args[0]
+            sys.exit(1)
+        finally:
+            if con:
+                con.close()
         return render.createdeath(game_id)
         # else:
             # game_id = GetRandomString()
@@ -98,12 +98,32 @@ joining = form.Form(
 
 class join:
     def GET(self):
+        # Does the game exist
         joinForm = joining()
         return render.join(joinForm)
 
     def POST(self):
         user_data = web.input()
         # if user_data.game_id is valid...
+        con = None
+        try:
+            con = sqlite3.connect('test.db')
+            cur = con.cursor()    
+            cur.execute('SELECT * from game WHERE id ="' + user_data.game_id + '"')
+            data = cur.fetchone()
+            if(data is None):
+                print "Game does not exist"
+                joinForm = joining()
+                return render.failedjoin(joinForm)
+            else:
+                print "Game does exist: ", data
+        except sqlite3.Error, e:
+            print "Error %s:" % e.args[0]
+            sys.exit(1)
+        finally:
+            if con:
+                con.close()
+
         # add this user to the game
         web.redirect('/game/' + user_data.game_id)
 
