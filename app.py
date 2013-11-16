@@ -20,7 +20,6 @@ def GetRandomString():
         return ''.join(random.choice(chars) for x in range(size))
 
 #Access Database
-db = MongoClient().websassins
 
 # regex for game ids
 gameIdRe = '([A-Z0-9]{4})'
@@ -54,13 +53,11 @@ class index:
 
 class createdeath:
     def GET(self, game_id):
-    	collection = db.websassins_game
-        if collection.posts.find_one({"game_id" : game_id}) is None:
-    	   collection.posts.insert({"game_id" : game_id, "host" : "Larry", "target_order" : [], "dead_participants" : [] , "start_time" : "", "end_time" : ""})
-           return render.createdeath(game_id)
-        else:
-            game_id = GetRandomString()
-            return web.redirect('/create/' + game_id)
+        #TODO: add logic for dealing with reacurring game IDs
+        return render.createdeath(game_id)
+        # else:
+            # game_id = GetRandomString()
+            # return web.redirect('/create/' + game_id)
 
 class startdeath:
     def GET(self, game_id):
