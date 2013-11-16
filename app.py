@@ -4,31 +4,23 @@ app
 This is the application's main module.
 """
 
-<<<<<<< HEAD
 import web
 from web import form
 from twilio.rest import TwilioRestClient
 
 import twiliocreds
-=======
 import web              # A simple-looking Python HTTP framework I just found
->>>>>>> 6377ff1fe794b20f6847e727a068871041c540fd
 
 # The URL structure of the entire application.
 # A feature of the web.py framework.
 # Syntax: 'regular expression', 'class to be called'
 urls = (
-<<<<<<< HEAD
     '/',              'index',
     '/death',         'death',
     '/twilTest',      'twilTest',
-    '/seeMsg',      'seeMsg',
-=======
-    '/',             'index',
-    '/createdeath',  'createdeath',
-    '/death',        'death',
+    '/seeMsg',        'seeMsg',
+    '/createdeath',   'createdeath',
     '/target',        'target',
->>>>>>> 6377ff1fe794b20f6847e727a068871041c540fd
 )
 
 # Tell web.py where to look to find page templates
@@ -38,19 +30,15 @@ render = web.template.render('templates/');
 class index:
     def GET(self):
         return render.index()
-<<<<<<< HEAD
-=======
 
 class createdeath:
     def GET(self):
         return render.createdeath()
->>>>>>> 6377ff1fe794b20f6847e727a068871041c540fd
 
 class death:
     def GET(self):
         return render.death()
 
-<<<<<<< HEAD
 class twilTest:
     def GET(self):
         client = TwilioRestClient(twiliocreds.account_sid,
@@ -83,18 +71,14 @@ class seeMsg:
                     body=user_data.message)
             return render.seeMsg(msgForm, "Sent " + user_data.message + " " +
                     str(sms.sid))
-=======
+
 class target:
     def GET(self):
         return render.target()
->>>>>>> 6377ff1fe794b20f6847e727a068871041c540fd
 
 # Initialize the application
 if __name__ == "__main__":
     web.internalerror = web.debugerror
     app = web.application(urls, globals())
     app.run()
-<<<<<<< HEAD
 
-=======
->>>>>>> 6377ff1fe794b20f6847e727a068871041c540fd
