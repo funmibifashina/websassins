@@ -202,7 +202,21 @@ class handleSms:
                 if len(split) < 2:
                     resp.message("Malformed command '" + text + "'")
                 else:
-                    resp.message("Joined '" + split[1] + "'")
+                    con = None
+                    try:
+                        con = sqlite3.connect('test.db')
+                        cur = con.cursor()    
+                        cur.execute('SELECT * from game WHERE id ="' + split[1] + '"')
+                        data = cur.fetchone()
+                        if(data is None):
+                            resp.message("Game does not exist")
+                        else:
+                            resp.message("Joined '" + split[1] + "'")
+                    except sqlite3.Error, e:
+                        resp.message("Error " + str(e.args[0]))
+                    finally:
+                        if con:
+                            con.close()
             elif text[0] == "k":
                 resp.message("KILL SUM FOOLZ")
             elif text[0] == "d":
