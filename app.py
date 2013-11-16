@@ -82,6 +82,12 @@ class echoChamber:
         resp.message("This is a reply")
         return str(resp)
 
+    def POST(self):
+        user_data = web.input()
+        resp = twilio.twiml.Response()
+        resp.message(user_data.Body)
+        return str(resp)
+
 # Initialize the application
 if __name__ == "__main__":
     web.internalerror = web.debugerror
