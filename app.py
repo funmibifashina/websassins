@@ -95,6 +95,7 @@ class echoChamber:
         except AttributeError:
             resp.message("You said nothing.")
         web.debug("Sayin' this:" + str(resp))
+        web.header('Content-Type', 'text/xml')
         return str(resp)
 
 # Initialize the application
