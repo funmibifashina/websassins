@@ -11,7 +11,6 @@ import twilio.twiml
 import twiliocreds
 import string
 import random
-from pymongo import MongoClient
 import sqlite3
 import re
 import sys
