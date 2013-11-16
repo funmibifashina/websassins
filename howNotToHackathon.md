@@ -1,7 +1,7 @@
 How Not to Hackathon
 ====================
 
-Starring Sam, Nick, and Funmibi
+Starring Sam, Frank, and Funmibi
 -------------------------------
 
 1. Learn a new framework
@@ -9,4 +9,5 @@ Starring Sam, Nick, and Funmibi
 3. Learn a new framework
 4. Give up on that framework
 5. Discover that your final framework does not support sessions
+6. Forget Frank's name
 
