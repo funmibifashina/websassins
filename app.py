@@ -19,6 +19,7 @@ urls = (
     '/',              'index',
     '/createdeath',   'createdeath',
     '/deathmatch',    'deathmatch',
+    '/join',          'join',
     '/activation',    'activation',
     '/seeMsg',        'seeMsg',
     '/echoChamber',   'echoChamber',
@@ -39,6 +40,11 @@ class createdeath:
 class death:
     def GET(self):
         return render.death()
+
+
+class join:
+    def GET(self):
+        return render.join()
 
 class activation:
     def GET(self):
