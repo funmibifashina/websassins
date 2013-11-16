@@ -4,154 +4,61 @@ app
 This is the application's main module.
 """
 
-import web
-from web import form
+from flask import Flask, request, Response 
 from twilio.rest import TwilioRestClient
 import twilio.twiml
 import twiliocreds
-import string
 import random
-from pymongo import MongoClient
 
-# Convenience functions
-def GetRandomString():
-        chars = string.ascii_uppercase + string.digits
-        size = 4;
-        return ''.join(random.choice(chars) for x in range(size))
+app = Flask(__name__)
 
-#Access Database
+quotes = ["Every man is born as many men and dies as a single one. ~Martin Heidegger ",
+        "Language is the house of the truth of Being. ~Martin Heidegger ",
+        "Man acts as though he were the shaper and master of language, while in fact language remains the master of man. ~Martin Heidegger",
+        "The most thought-provoking thing in our thought-provoking time is that we are still not thinking. ~Martin Heidegger ",
+        "The possible ranks higher than the actual. ~Martin Heidegger",
+        "Unless you change how you are, you will always have what you've got. ~Jim Rohn ",
+        "A stumble may prevent a fall. ~English Proverb",
+        "There's no limit to what a man can achieve, if he doesn't care who gets the credit. ~Laing Burns, Jr.",
+        "Don't waste yourself in rejection, nor bark against the bad, but chant the beauty of the good.~Ralph Waldo Emerson",
+        "The most practical, beautiful, workable philosophy in the world won't work - if you won't. ~Zig Ziglar ",
+        "I believe the greater the handicap, the greater the triumph. ~John H. Johnson ",
+        "Life shrinks or expands in proportion to one's courage. ~Anais Nin",
+        "You can't build a reputation on what you are going to do. ~Henry Ford",
+        "The greatest form of maturity is at harvest time. That is when we must learn how to reap without complaint if the amounts are small and how to to reap without apology if the amounts are big. ~Jim Rohn ",
+        "People seem not to see that their opinion of the world is also a confession of character.  ~Ralph Waldo Emerson",
+        "The most successful people are those who are good at plan B. ~James Yorke",
+        "Opportunity is missed by most because it is dressed in overalls and looks like work. ~Thomas Alva Edison",
+        "The universe is full of magical things, patiently waiting for our wits to grow sharper. ~Eden Phillpotts",
+        "Experience is not what happens to a man, it is what a man does with what happens to him. ~Aldous Huxley",
+        "Imagination rules the world. ~Napoleon Bonaparte",
+        "Adversity has the effect of eliciting talents which, in prosperous circumstances, would have lain dormant. ~Horace",
+        "It isn't that they can't see the solution, it's that they can't see the problem. ~G.K. Chesterton",
+        "Facts are stubborn, but statistics are more pliable. ~Mark Twain ",
+        "All truth goes through three steps:  First, it is ridiculed. Second, it is violently opposed.  Finally, it is accepted as self-evident. ~Arthur Schopenhauer ",
+        "An invasion of armies can be resisted; an invasion of ideas cannot be resisted. ~Victor Hugo ",
+        "Pain is inevitable but misery is optional. ~Barbara Johnson ",
+        "Beware of defining as intelligent only those who share your opinions. ~Ugo Ojetti ",
+        "If we knew what it was we were doing, it would not be called research, would it? ~Albert Einstein ",
+        "To believe a thing is impossible is to make it so. ~French proverb",
+        "Simplicity is the ultimate sophistication. ~Leonardo da Vinci ",
+        "To be simple is to be great. ~Ralph Waldo Emerson ",
+        "The trouble about man is twofold.  He cannot learn truths which are too complicated; he forgets truths which are too simple. ~Dame Rebecca West ",
+        "Everything should be as simple as it is, but not simpler. ~Albert Einstein ",
+        "That you may retain your self-respect, it is better to displease the people by doing what you know is right, than to temporarily please them by doing what you know is wrong. ~William J. H. Boetcker ",
+        "Many of life's failures are people who did not realize how close they were to success when they gave up. ~Thomas Edison",
+        "Hitch your wagon to a star. ~Ralph Waldo Emerson ",
+        "If you knew how much work went into it, you wouldn't call it genius. ~Michelangelo",
+        "I know God will not give me anything I can't handle. I just wish that He didn't trust me so much. ~Mother Teresa ",
+        "If we did the things we are capable of, we would astound ourselves. ~Thomas Edison ",
+        ]
 
-# regex for game ids
-gameIdRe = '([A-Z0-9]{4})'
+@app.route("/", methods=['GET', 'POST'])
+def index():
+    resp = twilio.twiml.Response()
+    resp.message(quotes[random.randint(0,len(quotes)-1)])
+    return Response(str(resp), mimetype="text/xml")
 
-# The URL structure of the entire application.
-# A feature of the web.py framework.
-# Syntax: 'regular expression', 'class to be called'
-urls = (
-    '/',              'index',
-    '/create/' + gameIdRe,   'createdeath',
-    '/start/' + gameIdRe,    'startdeath',
-    '/game/' + gameIdRe,     'deathmatch',
-    '/join',          'join',
-    '/leave',         'leave',
-    '/activation',    'activation',
-    '/seeMsg',        'seeMsg',
-    '/echoChamber',   'echoChamber',
-)
-
-
-# Tell web.py where to look to find page templates
-render = web.template.render('templates/');
-
-# Classes that handle URLs
-
-# Form that handles the buttons on the index page
-class index:
-    def GET(self):
-        game_id = GetRandomString()
-        return render.index(game_id)
-
-class createdeath:
-    def GET(self, game_id):
-        #TODO: add logic for dealing with reacurring game IDs
-        return render.createdeath(game_id)
-        # else:
-            # game_id = GetRandomString()
-            # return web.redirect('/create/' + game_id)
-
-class startdeath:
-    def GET(self, game_id):
-        # Start the game
-        # Redirect to game page
-        # return render.deathmatch(game_id)
-        web.redirect('/game/' + game_id)
-
-class deathmatch:
-    def GET(self, game_id):
-        return render.deathmatch(game_id)
-
-joining = form.Form(
-    form.Textbox(name="game_id", description="What's the Game ID?"),
-    form.Button('Join!', class_='btn btn-lg btn-primary'),
-)
-
-class join:
-    def GET(self):
-        joinForm = joining()
-        return render.join(joinForm)
-
-    def POST(self):
-        user_data = web.input()
-        # if user_data.game_id is valid...
-        # add this user to the game
-        web.redirect('/game/' + user_data.game_id)
-
-class leave:
-    def GET(self):
-        # let this user exit the game
-        web.redirect('/')
-
-class activation:
-    def GET(self):
-        return render.activation()
-
-class twilTest:
-    def GET(self):
-        client = TwilioRestClient(twiliocreds.account_sid,
-                twiliocreds.auth_token)
-        message = client.messages.create(to=twiliocreds.sams_phone,
-                from_=twiliocreds.our_phone,
-                body="Test")
-        return render.twilTest(str(message.sid))
-
-message = form.Form(
-    form.Textbox('message'),
-    form.Button('Send'),
-)
-
-class seeMsg:
-    def GET(self):
-        msgForm = message()
-        return render.seeMsg(msgForm, None)
-
-    def POST(self):
-        msgForm = message()
-        if not msgForm.validates():
-            return render.seeMsg(msgForm, None)
-        else:
-            user_data = web.input()
-            client = TwilioRestClient(twiliocreds.account_sid,
-                    twiliocreds.auth_token)
-            sms = client.messages.create(to=twiliocreds.sams_phone,
-                    from_=twiliocreds.our_phone,
-                    body=user_data.message)
-            return render.seeMsg(msgForm, "Sent " + user_data.message + " " +
-                    str(sms.sid))
-
-class target:
-    def GET(self):
-        return render.target()
-
-class echoChamber:
-    def GET(self):
-        resp = twilio.twiml.Response()
-        resp.message("This is a reply")
-        return str(resp)
-
-    def POST(self):
-        user_data = web.input()
-        resp = twilio.twiml.Response()
-        try:
-            resp.message(user_data.Body)
-        except AttributeError:
-            resp.message("You said nothing.")
-        web.debug("Sayin' this:" + str(resp))
-        web.header('Content-Type', 'text/xml')
-        return str(resp)
-
-# Initialize the application
 if __name__ == "__main__":
-    web.internalerror = web.debugerror
-    app = web.application(urls, globals())
-    app.run()
+    app.run(debug=True)
 
