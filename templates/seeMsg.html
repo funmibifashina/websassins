@@ -1,0 +1,10 @@
+$def with (form, message)
+
+<h1>see message</h1>
+<form method="POST">
+    $:form.render()
+</form>
+
+$if message:
+    $message
+

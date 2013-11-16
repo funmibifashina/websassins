@@ -5,7 +5,9 @@ This is the application's main module.
 """
 
 import web
+from web import form
 from twilio.rest import TwilioRestClient
+
 import twiliocreds
 
 # The URL structure of the entire application.
@@ -15,6 +17,7 @@ urls = (
     '/',              'index',
     '/death',         'death',
     '/twilTest',      'twilTest',
+    '/seeMsg',      'seeMsg',
 )
 
 # Tell web.py where to look to find page templates
@@ -37,6 +40,24 @@ class twilTest:
                 from_=twiliocreds.our_phone,
                 body="Test")
         return render.twilTest(str(message.sid))
+
+message = form.Form(
+    form.Textbox('message'),
+    form.Button('Send'),
+)
+
+class seeMsg:
+    def GET(self):
+        msgForm = message()
+        return render.seeMsg(msgForm, None)
+
+    def POST(self):
+        msgForm = message()
+        if not msgForm.validates():
+            return render.seeMsg(msgForm, None)
+        else:
+            user_data = web.input()
+            return render.seeMsg(msgForm, user_data.message)
 
 # Initialize the application
 if __name__ == "__main__":
