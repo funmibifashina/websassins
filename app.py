@@ -39,7 +39,6 @@ render = web.template.render('templates/');
 # Form that handles the buttons on the index page
 class index:
     def GET(self):
-        game_id = 'putmonkey'
         chars = string.ascii_uppercase + string.digits
         size = 4;
         game_id = ''.join(random.choice(chars) for x in range(size))
@@ -57,7 +56,7 @@ class startdeath:
         # Start the game
         # Redirect to game page
         # return render.deathmatch(game_id)
-        web.redirect('/game/what')
+        web.redirect('/game/' + game_id)
 
 class deathmatch:
     def GET(self, game_id):
