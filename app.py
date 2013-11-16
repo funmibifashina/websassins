@@ -31,8 +31,8 @@ render = web.template.render('templates/');
 
 # Form that handles the buttons on the index page
 landing = form.Form(
-    form.Button('create'),
-    form.Button('join'),
+    form.Button('Create a Deathmatch', class_='btn btn-lg btn-primary'),
+    form.Button('Join a Deathmatch', class_='btn btn-lg btn-primary'),
 )
 
 class index:
