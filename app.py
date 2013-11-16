@@ -16,7 +16,7 @@ import web              # A simple-looking Python HTTP framework I just found
 # Syntax: 'regular expression', 'class to be called'
 urls = (
     '/',              'index',
-    '/createdeath',   'createdeath',
+    '/game/(.+)',   'createdeath',
     '/deathmatch',    'deathmatch',
     '/join',          'join',
     '/activation',    'activation',
@@ -38,16 +38,11 @@ landing = form.Form(
 class index:
     def GET(self):
         landingForm = landing()
-        return render.index(landingForm)
-
-    def POST(self):
-        landingForm = landing()
-        if landingForm.validates():
-            # Handle the landing form here
-            return render.index(landingForm)
+        game_id = 'putmonkey'
+        return render.index(game_id)
 
 class createdeath:
-    def GET(self):
+    def GET(self, game_id):
         return render.createdeath()
 
 class death:
