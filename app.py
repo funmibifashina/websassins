@@ -17,8 +17,9 @@ import random
 # Syntax: 'regular expression', 'class to be called'
 urls = (
     '/',              'index',
-    '/game/(.+)',     'createdeath',
-    '/deathmatch',    'deathmatch',
+    '/create/(.+)',   'createdeath',
+    '/start/(.+)',    'startdeath',
+    '/game/(.+)',     'deathmatch',
     '/join',          'join',
     '/activation',    'activation',
     '/seeMsg',        'seeMsg',
@@ -43,9 +44,16 @@ class createdeath:
     def GET(self, game_id):
         return render.createdeath(game_id)
 
-class death:
-    def GET(self):
-        return render.death()
+class startdeath:
+    def GET(self, game_id):
+        # Start the game
+        # Redirect to game page
+        return render.deathmatch(game_id)
+        # web.redirect('/game/what')
+
+class deathmatch:
+    def GET(self, game_id):
+        return render.deathmatch(game_id)
 
 joining = form.Form(
     form.Textbox(name="game_id", description="What's the Game ID?"),
