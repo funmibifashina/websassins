@@ -202,6 +202,7 @@ class handleSms:
 
         try:
             text = user_data.Body.lower()
+            phoneNum = user_data.From
             if text[0] == "j":
                 split = text.split(" ")
                 if len(split) < 2:
@@ -218,6 +219,9 @@ class handleSms:
                             resp.message("Game '" + split[1] + "' does not exist")
                         else:
                             resp.message("Joined '" + split[1] + "'")
+                            queryStr = "INSERT into Players(id, player_id) VALUES( '%s' , '%s ' )" % (split[1], phoneNum)
+                            cur.execute( queryStr )
+                            con.commit()
                     except sqlite3.Error, e:
                         resp.message("Error " + str(e.args[0]))
                     finally:
