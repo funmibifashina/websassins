@@ -86,6 +86,27 @@ class startdeath:
         # Start the game
         # Redirect to game page
         # return render.deathmatch(game_id)
+        con = None
+        try:
+            con = sqlite3.connect('test.db')
+            cur = con.cursor()   
+            cur.execute("SELECT player_id FROM Players WHERE id = '" + game_id + "'")
+            data = cur.fetchall()
+            count = len( data )
+            print "Number of players: ", count
+            for x in xrange(count):
+                assassin = data[x][0]
+                target = data[(x+1)%count][0]
+                print "Here's an assassin: ", assassin, " --> target: ", target
+
+            return web.redirect('/create/' + game_id)          
+        except sqlite3.Error, e:
+            print "Error %s:" % e.args[0]
+            sys.exit(1)
+        finally:
+            if con:
+                con.close()
+
         web.redirect('/game/' + game_id)
 
 class deathmatch:
