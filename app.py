@@ -208,7 +208,7 @@ class handleSms:
                         cur.execute('SELECT * from game WHERE id ="' + split[1] + '"')
                         data = cur.fetchone()
                         if(data is None):
-                            resp.message("Game does not exist")
+                            resp.message("Game '" + split[1] + "' does not exist")
                         else:
                             resp.message("Joined '" + split[1] + "'")
                     except sqlite3.Error, e:
