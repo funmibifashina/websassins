@@ -13,6 +13,7 @@ import string
 import random
 from pymongo import MongoClient
 import sqlite3
+import re
 
 # Convenience functions
 def GetRandomString():
@@ -38,6 +39,7 @@ urls = (
     '/activation',    'activation',
     '/seeMsg',        'seeMsg',
     '/echoChamber',   'echoChamber',
+    '/handleSms',   'handleSms',
 )
 
 
@@ -165,6 +167,31 @@ class echoChamber:
         except AttributeError:
             resp.message("You said nothing.")
         web.debug("Sayin' this:" + str(resp))
+        web.header('Content-Type', 'text/xml')
+        return str(resp)
+
+class handleSms:
+    def POST(self):
+        user_data = web.input()
+        resp = twilio.twiml.Response()
+
+        try:
+            text = user_data.Body.lower()
+            if text[0] == "j":
+                split = text.split(" ")
+                if len(split) < 2:
+                    resp.message("Malformed command '" + text + "'")
+                else:
+                    resp.message("Joined '" + split[1] + "'")
+            elif text[0] == "k":
+                resp.message("KILL SUM FOOLZ")
+            elif text[0] == "d":
+                resp.message("YOU DAYID")
+            else:
+                resp.message("lol wut")
+        except AttributeError:
+            resp.message("No command entered")
+
         web.header('Content-Type', 'text/xml')
         return str(resp)
 
