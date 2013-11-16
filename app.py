@@ -86,6 +86,7 @@ class echoChamber:
         user_data = web.input()
         resp = twilio.twiml.Response()
         resp.message(user_data.Body)
+        web.debug("Sayin' this:\n\n" + str(resp) + "\n\n")
         return str(resp)
 
 # Initialize the application
