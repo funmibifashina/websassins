@@ -90,8 +90,11 @@ class echoChamber:
     def POST(self):
         user_data = web.input()
         resp = twilio.twiml.Response()
-        resp.message(user_data.Body)
-        web.debug("Sayin' this:\n\n" + str(resp) + "\n\n")
+        try:
+            resp.message(user_data.Body)
+        except AttributeError:
+            resp.message("You said nothing.")
+        web.debug("Sayin' this:" + str(resp))
         return str(resp)
 
 # Initialize the application
