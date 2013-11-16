@@ -102,7 +102,7 @@ class startdeath:
                         twiliocreds.auth_token)
                 sms = client.messages.create(to=str(assassin),
                         from_=twiliocreds.our_phone,
-                        body="Last 4 digits of your target's number are " + str(target)[4:])
+                        body="Last digits of your target's number are " + str(target)[8:])
 
             return web.redirect('/game/' + game_id)          
         except sqlite3.Error, e:
