@@ -16,7 +16,7 @@ import web              # A simple-looking Python HTTP framework I just found
 # Syntax: 'regular expression', 'class to be called'
 urls = (
     '/',              'index',
-    '/game/(.+)',   'createdeath',
+    '/game/(.+)',     'createdeath',
     '/deathmatch',    'deathmatch',
     '/join',          'join',
     '/activation',    'activation',
@@ -30,14 +30,8 @@ render = web.template.render('templates/');
 # Classes that handle URLs
 
 # Form that handles the buttons on the index page
-landing = form.Form(
-    form.Button('Create a Deathmatch', class_='btn btn-lg btn-primary'),
-    form.Button('Join a Deathmatch', class_='btn btn-lg btn-primary'),
-)
-
 class index:
     def GET(self):
-        landingForm = landing()
         game_id = 'putmonkey'
         return render.index(game_id)
 
@@ -49,9 +43,21 @@ class death:
     def GET(self):
         return render.death()
 
+joining = form.Form(
+    form.Textbox(name="game_id", description="What's the Game ID?"),
+    form.Button('Join!', class_='btn btn-lg btn-primary'),
+)
+
 class join:
     def GET(self):
-        return render.join()
+        joinForm = joining()
+        return render.join(joinForm)
+
+    def POST(self):
+        user_data = web.input()
+        # if user_data.game_id is valid...
+        # add this user to the game
+        web.redirect('/game/' + user_data.game_id)
 
 class activation:
     def GET(self):

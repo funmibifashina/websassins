@@ -1,3 +1,5 @@
+$def with (form)
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -72,8 +74,11 @@
         <!-- <h1>Navbar example</h1>
         <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p> -->
         <p>
-          What's the Deathmatch's ID? <input><br/>
-          <a class="btn btn-lg btn-primary" href="deathmatch" role="button">Join a Deathmatch &raquo;</a>
+          <form method="POST">
+            $:form.render()
+          </form>
+         <!-- What's the Deathmatch's ID? <input><br/>
+          <a class="btn btn-lg btn-primary" href="deathmatch" role="button">Join a Deathmatch &raquo;</a> -->
         </p>
       </div>
 
