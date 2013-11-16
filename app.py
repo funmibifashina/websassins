@@ -11,6 +11,7 @@ import web              # A simple-looking Python HTTP framework I just found
 # Syntax: 'regular expression', 'class to be called'
 urls = (
   '/',                  'index',
+  '/death',        'death',
 )
 
 # Tell web.py where to look to find page templates
@@ -20,6 +21,10 @@ render = web.template.render('templates/');
 class index:
   def GET(self):
     return render.index()
+
+class death:
+  def GET(self):
+    return render.death()
 
 # Initialize the application
 if __name__ == "__main__":
