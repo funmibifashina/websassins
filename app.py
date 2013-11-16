@@ -65,20 +65,22 @@ class createdeath:
         try:
             con = sqlite3.connect('test.db')
             cur = con.cursor()    
-            cur.execute("INSERT into Game(id) VALUES('" + game_id + "')")
+            cur.execute("SELECT id FROM Game WHERE id = '" + game_id + "'")
             data = cur.fetchone()
-            print "Creating Game: %s" % data       
-            con.commit()         
+
+            if data is None:
+                cur.execute("INSERT into Game(id) VALUES('" + game_id + "')")
+                con.commit()
+                return render.createdeath(game_id)
+            else:
+                game_id = GetRandomString()
+                return web.redirect('/create/' + game_id)          
         except sqlite3.Error, e:
             print "Error %s:" % e.args[0]
             sys.exit(1)
         finally:
             if con:
                 con.close()
-        return render.createdeath(game_id)
-        # else:
-            # game_id = GetRandomString()
-            # return web.redirect('/create/' + game_id)
 
 class startdeath:
     def GET(self, game_id):
