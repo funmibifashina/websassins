@@ -227,7 +227,7 @@ class handleSms:
         resp = twilio.twiml.Response()
 
         try:
-            text = user_data.Body.lower()
+            text = user_data.Body.lower().strip()
             phoneNum = user_data.From
             if text[0] == "j":
                 split = text.split(" ")
