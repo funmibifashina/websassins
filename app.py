@@ -91,7 +91,8 @@ class deathmatch:
         return render.deathmatch(game_id)
 
 joining = form.Form(
-    form.Textbox(name="game_id", description="What's the Game ID?"),
+    form.Textbox(name="username", description="Assassin name"),
+    form.Textbox(name="game_id", description="What Game ID are you trying to join?"),
     form.Button('Join!', class_='btn btn-lg btn-primary'),
 )
 
@@ -103,7 +104,7 @@ class join:
 
     def POST(self):
         user_data = web.input()
-        # if user_data.game_id is valid...
+        # if the game ID Exists.......
         con = None
         try:
             con = sqlite3.connect('test.db')
@@ -124,6 +125,8 @@ class join:
                 con.close()
 
         # add this user to the game
+        
+        
         web.redirect('/game/' + user_data.game_id)
 
 class leave:
