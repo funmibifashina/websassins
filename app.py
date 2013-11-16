@@ -40,7 +40,7 @@ class index:
     def GET(self):
         landingForm = landing()
         chars = string.ascii_uppercase + string.digits
-        size = 6;
+        size = 4;
         game_id = ''.join(random.choice(chars) for x in range(size))
         return render.index(game_id)
 
