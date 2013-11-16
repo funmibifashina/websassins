@@ -1,5 +1,8 @@
 *.py[cod]
 
+# Don't put our API keys out everywhere
+*creds.py
+
 # C extensions
 *.so
 
