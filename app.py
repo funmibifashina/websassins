@@ -21,7 +21,7 @@ db = MongoClient()['websassins']
 # Syntax: 'regular expression', 'class to be called'
 urls = (
     '/',              'index',
-    '/create/(.+)',   'createdeath',
+    '/create/([A-Z0-9]+)',   'createdeath',
     '/start/(.+)',    'startdeath',
     '/game/(.+)',     'deathmatch',
     '/join',          'join',
