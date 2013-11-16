@@ -19,8 +19,9 @@ urls = (
     '/',              'index',
     '/createdeath',   'createdeath',
     '/deathmatch',    'deathmatch',
+    '/activation',    'activation',
     '/seeMsg',        'seeMsg',
-    '/echoChamber',        'echoChamber',
+    '/echoChamber',   'echoChamber',
 )
 
 # Tell web.py where to look to find page templates
@@ -38,6 +39,10 @@ class createdeath:
 class death:
     def GET(self):
         return render.death()
+
+class activation:
+    def GET(self):
+        return render.activation()
 
 class twilTest:
     def GET(self):
