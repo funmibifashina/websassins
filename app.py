@@ -34,7 +34,7 @@ class twilTest:
         client = TwilioRestClient(twiliocreds.account_sid,
                 twiliocreds.auth_token)
         message = client.messages.create(to=twiliocreds.sams_phone,
-                from_="+16616674124",
+                from_=twiliocreds.our_phone,
                 body="Test")
         return render.twilTest(str(message.sid))
 
