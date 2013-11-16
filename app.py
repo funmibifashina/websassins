@@ -9,7 +9,8 @@ from web import form
 from twilio.rest import TwilioRestClient
 import twilio.twiml
 import twiliocreds
-import web              # A simple-looking Python HTTP framework I just found
+import string
+import random
 
 # The URL structure of the entire application.
 # A feature of the web.py framework.
@@ -33,11 +34,14 @@ render = web.template.render('templates/');
 class index:
     def GET(self):
         game_id = 'putmonkey'
+        chars = string.ascii_uppercase + string.digits
+        size = 4;
+        game_id = ''.join(random.choice(chars) for x in range(size))
         return render.index(game_id)
 
 class createdeath:
     def GET(self, game_id):
-        return render.createdeath()
+        return render.createdeath(game_id)
 
 class death:
     def GET(self):
