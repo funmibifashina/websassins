@@ -46,7 +46,7 @@ class index:
 
 class createdeath:
     def GET(self, game_id):
-        return render.createdeath()
+        return render.createdeath(game_id)
 
 class death:
     def GET(self):
