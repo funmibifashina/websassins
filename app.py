@@ -21,6 +21,7 @@ urls = (
     '/start/(.+)',    'startdeath',
     '/game/(.+)',     'deathmatch',
     '/join',          'join',
+    '/leave',         'leave',
     '/activation',    'activation',
     '/seeMsg',        'seeMsg',
     '/echoChamber',   'echoChamber',
@@ -48,8 +49,8 @@ class startdeath:
     def GET(self, game_id):
         # Start the game
         # Redirect to game page
-        return render.deathmatch(game_id)
-        # web.redirect('/game/what')
+        # return render.deathmatch(game_id)
+        web.redirect('/game/what')
 
 class deathmatch:
     def GET(self, game_id):
@@ -70,6 +71,11 @@ class join:
         # if user_data.game_id is valid...
         # add this user to the game
         web.redirect('/game/' + user_data.game_id)
+
+class leave:
+    def GET(self):
+        # let this user exit the game
+        web.redirect('/')
 
 class activation:
     def GET(self):

@@ -1,0 +1,14 @@
+body {
+  background-color: #6D6D6D;
+}
+
+.jumbotron {
+  background-color: #333;
+  margin-top: 5%;
+}
+
+.jumbotron h1{
+  color: #B3B3B3;
+  font-family: 'Nosifer', cursive;
+  margin: 50px;
+}
