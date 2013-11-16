@@ -20,7 +20,6 @@ urls = (
     '/createdeath',   'createdeath',
     '/deathmatch',    'deathmatch',
     '/seeMsg',        'seeMsg',
-    '/target',        'target',
     '/echoChamber',        'echoChamber',
 )
 
