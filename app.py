@@ -12,6 +12,7 @@ import twiliocreds
 import string
 import random
 from pymongo import MongoClient
+import sqlite3
 
 #Access Database
 db = MongoClient()['websassins']
@@ -42,6 +43,22 @@ render = web.template.render('templates/');
 # Form that handles the buttons on the index page
 class index:
     def GET(self):
+        con = None
+        try:
+            con = sqlite3.connect('test.db')
+            cur = con.cursor()    
+            cur.execute("INSERT into Game VALUES(5)")
+            data = cur.fetchone()
+            print "Game: %s" % data       
+            con.commit()         
+        except sqlite3.Error, e:
+            print "Error %s:" % e.args[0]
+            sys.exit(1)
+        finally:
+            if con:
+                con.close()
+
+        web.setcookie('username', 1)
         chars = string.ascii_uppercase + string.digits
         size = 4;
         game_id = ''.join(random.choice(chars) for x in range(size))
