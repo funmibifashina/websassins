@@ -11,6 +11,10 @@ import twilio.twiml
 import twiliocreds
 import string
 import random
+from pymongo import MongoClient
+
+#Access Database
+db = MongoClient()['websassins']
 
 # The URL structure of the entire application.
 # A feature of the web.py framework.
@@ -42,6 +46,9 @@ class index:
 
 class createdeath:
     def GET(self, game_id):
+    	collection = db.websassins_game
+
+    	collection.posts.insert({"game_id" : game_id, "host" : "Larry", "target_order" : [], "dead_participants" : [] , "start_time" : "", "end_time" : ""})
         return render.createdeath(game_id)
 
 class startdeath:
