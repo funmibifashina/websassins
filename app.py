@@ -102,7 +102,7 @@ class startdeath:
                         twiliocreds.auth_token)
                 sms = client.messages.create(to=str(assassin),
                         from_=twiliocreds.our_phone,
-                        body="Last 4 digits of your target's number are " + str(target)[:4])
+                        body="Last 4 digits of your target's number are " + str(target)[4:])
 
             return web.redirect('/game/' + game_id)          
         except sqlite3.Error, e:
@@ -227,7 +227,7 @@ class handleSms:
         resp = twilio.twiml.Response()
 
         try:
-            text = user_data.Body.lower()
+            text = user_data.Body.lower().strip()
             phoneNum = user_data.From
             if text[0] == "j":
                 split = text.split(" ")
