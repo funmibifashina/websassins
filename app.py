@@ -98,6 +98,11 @@ class startdeath:
                 assassin = data[x][0]
                 target = data[(x+1)%count][0]
                 print "Here's an assassin: ", assassin, " --> target: ", target
+                client = TwilioRestClient(twiliocreds.account_sid,
+                        twiliocreds.auth_token)
+                sms = client.messages.create(to=str(assassin),
+                        from_=twiliocreds.our_phone,
+                        body="Your target is " + str(target))
 
             return web.redirect('/create/' + game_id)          
         except sqlite3.Error, e:
