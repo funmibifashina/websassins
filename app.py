@@ -17,7 +17,6 @@ import web              # A simple-looking Python HTTP framework I just found
 urls = (
     '/',              'index',
     '/death',         'death',
-    '/twilTest',      'twilTest',
     '/seeMsg',        'seeMsg',
     '/createdeath',   'createdeath',
     '/target',        'target',
