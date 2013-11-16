@@ -7,6 +7,7 @@ This is the application's main module.
 import web
 from web import form
 from twilio.rest import TwilioRestClient
+import twilio.twiml
 
 import twiliocreds
 import web              # A simple-looking Python HTTP framework I just found
@@ -20,6 +21,7 @@ urls = (
     '/seeMsg',        'seeMsg',
     '/createdeath',   'createdeath',
     '/target',        'target',
+    '/echoChamber',        'echoChamber',
 )
 
 # Tell web.py where to look to find page templates
@@ -74,6 +76,12 @@ class seeMsg:
 class target:
     def GET(self):
         return render.target()
+
+class echoChamber:
+    def GET(self):
+        resp = twilio.twiml.Response()
+        resp.message("This is a reply")
+        return str(resp)
 
 # Initialize the application
 if __name__ == "__main__":
