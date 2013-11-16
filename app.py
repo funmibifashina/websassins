@@ -59,7 +59,7 @@ class index:
 
 class createdeath:
     def GET(self, game_id):
-        #TODO: add logic for dealing with reacurring game IDs
+        # logic for dealing with reacurring game IDs
         con = None
         try:
             con = sqlite3.connect('test.db')
@@ -118,15 +118,16 @@ class join:
                 joinForm = joining()
                 return render.failedjoin(joinForm)
             else:
-                print "Game does exist: ", data
+                # add this user to the game
+                queryStr = "INSERT into Players(id, player_id) VALUES( '%s' , '%s ' )" % (user_data.game_id, user_data.username.replace(' ', ''))
+                cur.execute( queryStr )
+                con.commit()
         except sqlite3.Error, e:
             print "Error %s:" % e.args[0]
             sys.exit(1)
         finally:
             if con:
                 con.close()
-
-        # add this user to the game
         
         
         web.redirect('/game/' + user_data.game_id)
