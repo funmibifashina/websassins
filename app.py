@@ -8,7 +8,6 @@ import web
 from web import form
 from twilio.rest import TwilioRestClient
 import twilio.twiml
-
 import twiliocreds
 import web              # A simple-looking Python HTTP framework I just found
 
@@ -29,9 +28,23 @@ urls = (
 render = web.template.render('templates/');
 
 # Classes that handle URLs
+
+# Form that handles the buttons on the index page
+landing = form.Form(
+    form.Button('create'),
+    form.Button('join'),
+)
+
 class index:
     def GET(self):
-        return render.index()
+        landingForm = landing()
+        return render.index(landingForm)
+
+    def POST(self):
+        landingForm = landing()
+        if landingForm.validates():
+            # Handle the landing form here
+            return render.index(landingForm)
 
 class createdeath:
     def GET(self):
@@ -40,7 +53,6 @@ class createdeath:
 class death:
     def GET(self):
         return render.death()
-
 
 class join:
     def GET(self):
