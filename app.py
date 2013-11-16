@@ -16,14 +16,17 @@ from pymongo import MongoClient
 #Access Database
 db = MongoClient()['websassins']
 
+# regex for game ids
+gameIdRe = '([A-Z0-9]{4})'
+
 # The URL structure of the entire application.
 # A feature of the web.py framework.
 # Syntax: 'regular expression', 'class to be called'
 urls = (
     '/',              'index',
-    '/create/([A-Z0-9]+)',   'createdeath',
-    '/start/(.+)',    'startdeath',
-    '/game/(.+)',     'deathmatch',
+    '/create/' + gameIdRe,   'createdeath',
+    '/start/' + gameIdRe,    'startdeath',
+    '/game/' + gameIdRe,     'deathmatch',
     '/join',          'join',
     '/leave',         'leave',
     '/activation',    'activation',
