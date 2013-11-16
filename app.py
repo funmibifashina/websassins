@@ -204,6 +204,7 @@ class handleSms:
                 if len(split) < 2:
                     resp.message("Malformed command '" + text + "'")
                 else:
+                    split[1] = split[1].upper()
                     con = None
                     try:
                         con = sqlite3.connect('test.db')
