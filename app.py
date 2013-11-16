@@ -57,7 +57,13 @@ class seeMsg:
             return render.seeMsg(msgForm, None)
         else:
             user_data = web.input()
-            return render.seeMsg(msgForm, user_data.message)
+            client = TwilioRestClient(twiliocreds.account_sid,
+                    twiliocreds.auth_token)
+            sms = client.messages.create(to=twiliocreds.sams_phone,
+                    from_=twiliocreds.our_phone,
+                    body=user_data.message)
+            return render.seeMsg(msgForm, "Sent " + user_data.message + " " +
+                    str(sms.sid))
 
 # Initialize the application
 if __name__ == "__main__":
