@@ -104,7 +104,7 @@ class startdeath:
                         from_=twiliocreds.our_phone,
                         body="Last 4 digits of your target's number are " + str(target)[:4])
 
-            return web.redirect('/create/' + game_id)          
+            return web.redirect('/game/' + game_id)          
         except sqlite3.Error, e:
             print "Error %s:" % e.args[0]
             sys.exit(1)
